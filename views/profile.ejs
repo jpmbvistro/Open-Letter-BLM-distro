@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+    <title>An Open Letter About BLM</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <section class='main'>
+    <h1>An Open Letter About BLM</h1>
+    <section class='content flex-container flex-wrap'>
+      <section class='reference-panel'>
+        <div class="original-reference">
+          <article class="original-letter">
+            <h2><%= og.title %></h2>
+            
+            <p><%= og.body %>
+            </p>
+          </article>
+        </div>
+        <div class="selected-reference hide">
+          <article class="selected-reference-article">
+            <h3 class='title'></h3>
+            <h4 class='reference-author'>Author: <span class='ref-auth-name'></span><span class='authorID invisible'></span></h4>
+            <h4 >Language: <span class='reference-language'></span> </h4>
+            <span >Nice: <span class='reference-nice'></span> </span>
+            <p class='ref-body'></p>
+          </article>
+
+        </div>
+      </section>
+      <section class='creation-panel panel'>
+        <h2>Make a Version</h2>
+        <section class='menu'>
+          <div class="version-type">
+            <button class='select primary-button' type="button" name="button" value="Text">Text</button>
+          </div>
+          <div class="document-reference">
+            <button id="select-original-reference" class='primary-button select-original-reference select-ref' type="button" name="button">
+              <img src="img/og-ref-icon.png" alt="Original Document Icon">
+            </button>
+            <button id="select-chosen-reference" class='primary-button select-chosen-reference hide select-ref' type="button" name="button">
+              <img src="img/ch-ref-icon.png" alt="Chosen Reference Document Icon">
+            </button>
+            <a href='#community-panel' id="find-new-reference" class='find-new-reference select-ref primary-button' type="button" name="button">
+              <img src="img/fn-ref-icon.png" alt="Find New Reference Document Icon">
+            </a>
+          </div>
+        </section>
+
+        <section id='edit-module' class='edit-module module'>
+          <form class="" action="/newArticle" method="post">
+            <label class='module' for="title">
+              Title: <input class='title' type="text" name="title" placeholder="An open letter to..." value="<%= prefill.title%>">
+            </label>
+            <input class='referenceArticleID' type="hidden" name="referenceArticleID" value="<%= prefill.id %>">
+            <label class='module' for="language">
+              Language: <input class='language' type="text" name="language" placeholder="Language" value="<%= prefill.language%>">
+            </label>
+            <label class='body-create module' for="body">
+              <textarea type="text" name="body" placeholder="Letter Body" ><%= prefill.body%></textarea>
+            </label>
+            <input type="submit" name="submit" value="submit">
+          </form>
+        </section>
+      </section>
+
+      <section id='community-panel' class='community-panel panel'>
+        <h2>Alternate Letters</h2>
+        <ul class="community-letters flex-container flex-wrap">
+        <% for(var i=0; i<communityLetters.length; i++) { %>
+          <li id="<%= communityLetters[i].id %>" class="recipe card">
+            <h4><%= communityLetters[i].title %><span class='invisible articleID'><%= communityLetters[i].id %></span></h4>
+            <span class='author'>Author: <%= communityLetters[i].authorName %></span>
+            <span class='language'>Language: <%= communityLetters[i].language%></span>
+            <button nice='<%= communityLetters[i].nice%>' class="nice" type="button" name="button"><%= communityLetters[i].nice %> Nice</button>
+            <button class='useReference' type="button" name="button">Use as a reference</button>
+          </li>
+        <% } %>
+        </ul>
+      </section>
+
+      <section class='user-panel panel'>
+        <h3>Your Articles</h3>
+        <ul class='user-letters'>
+          <% for(var i=0; i<userLetters.length; i++) { %>
+            <li articleId="<%= userLetters[i].id %>" class="card">
+              <h4><%= userLetters[i].title %><span class='invisible articleID'><%= userLetters[i].id %></span></h4>
+              <span class='language'>Language: <%= userLetters[i].language%></span>
+              <span class="nice">Nice: <%= userLetters[i].nice %></span>
+              <button class='delete' type="button" name="button">DELETE</button>
+            </li>
+          <% } %>
+        </ul>
+      </section>
+    </section>
+    <button class="info-button">...</button>
+  </section>
+
+  <aside class="">
+    <h4 id="projectTitle">Welcome to Flip Card</h4>
+    <div class="external-links"><a id="portfolio-link" class="" href="http://jpmbvistro.netlify.app/" target='_blank'> More of my work</a></div>
+    <h5>Card Flip</h5>
+    <p>This application was part of a coding exercise meant to practice utilizeing JS ES6 classes. The way I abstracted the object allowed me to easily change the number and type of card available to choose.</p>
+    <div id="profile-container" class="profile-container"><img src="/img/profile-picture.jpg" alt="Profile Picture"></div>
+    <h5>About Me | Juan Vistro</h5>
+    <p>A software engineer based in Boston, I combine archipelagic design and my diasporic experiences to compose engaging, complex, and intuitive applications.</p>
+    <div class="collab-button"><a id="portfolio-link" class=" portfolio-link" target="_blank" href="https://jpmbvistro.com/" target='_blank'>Work with me</a>
+    <a id="hide-aside" class="hide-aside"></a></div>
+    <div class="">
+      <h3><span class="fa fa-user"></span> Local</h3>
+
+      <% if (user.local.email) { %>
+          <p>
+            ID: <span id='userID'><%= user._id %></span>
+            Email: <span id='userEmail'><%= user.local.email %></span>
+
+              <strong>password</strong>: <%= user.local.password %>
+          </p>
+
+          <a href="/unlink/local" class="btn btn-default">Unlink</a>
+      <% } else { %>
+          <a href="/connect/local" class="btn btn-default">Connect Local</a>
+      <% } %>
+
+    </div>
+
+  </aside>
+<script src="main.js">
+  const user = <%= user %>
+  var og: og
+</script>
+
+</body>
+</html>
